@@ -18,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int i;
-        String Sha;
 
         MyDbHandler db = new MyDbHandler(MainActivity.this);
 
@@ -37,21 +35,28 @@ public class MainActivity extends AppCompatActivity {
         sarif.setName("Sharif MAnsoori");
 
 
-        // Creating a contact object for the db
+        /*** Update the existing contact */
+
         Contact tehri = new Contact();
-        tehri.setPhone_number("9090675409");
-        tehri.setName("Tehri");
+        tehri.setId(28);
+        tehri.setPhone_number(" change mo 9090675409");
+        tehri.setName(" changed Tehri");
 
         // Adding a contact to the db
+
         db.addContact(shakib);
         db.addContact(sarif);
-        db.addContact(tehri);
+
+        db.deleteContactById(shakib);
+        int affected_rows = db.updateContact(tehri);
+        Log.d("dbharry", " No of affected rows " + affected_rows);
+
         Log.d("dbharry", "Id for tehri and larry are successfully added to the db");
 
         // Get all contacts
         List<Contact> allContacts = db.getAllContacts();
         for(Contact contact: allContacts){
-            Log.d("dbharry", "\nId: " + contact.getId() + "\n" +
+            Log.d("dbharry", "\n\n\nId: " + contact.getId() + "\n" +
                     "Name: " + contact.getName() + "\n"+
                     "Phone Number: " + contact.getPhone_number() + "\n" );
 

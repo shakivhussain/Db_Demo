@@ -46,7 +46,6 @@ public class MyDbHandler extends SQLiteOpenHelper {
         Log.d("dbharry", "Successfully inserted");
         db.close();
 
-
     }
 
     public List<Contact> getAllContacts(){
@@ -68,5 +67,32 @@ public class MyDbHandler extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return contactList;
+    }
+
+    public int updateContact(Contact contact){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Params.KEY_NAME, contact.getName());
+        values.put(Params.KEY_PHONE, contact.getPhone_number());
+
+        return db.update(Params.TABLE_NAME, values, Params.KEY_ID + "=?" ,
+                new String[]{String.valueOf(contact.getId())});
+    }
+
+    public void deleteContactById( int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Params.TABLE_NAME, Params.KEY_ID + "=?",
+                new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public void deleteContactById( Contact contact){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Params.TABLE_NAME, Params.KEY_NAME + "=?",
+                new String[]{String.valueOf(contact.getId())});
+        db.close();
     }
 }
